@@ -1,0 +1,23 @@
+{
+  "name": "wp-light",
+  "version": "0.1.0",
+  "description": "A lightweight, WordPress-only local development environment for Windows (and eventually Mac). No Docker, no VM, minimal footprint.",
+  "main": "core/index.js",
+  "bin": {
+    "wplight": "./bin/wplight.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/fetch-binaries.js",
+    "cli": "node bin/wplight.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "extract-zip": "^2.0.1",
+    "commander": "^12.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
