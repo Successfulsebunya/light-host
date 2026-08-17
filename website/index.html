@@ -10,13 +10,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#12100e;
-  --paper:#faf7f2;
-  --paper-2:#f2ede4;
-  --accent:#c2410c;
-  --accent-soft:#fed7aa;
-  --line:#e0d8cb;
-  --muted:#6b6257;
+  --ink:#0d1f2d;
+  --paper:#f4f9fc;
+  --paper-2:#e8f1f7;
+  --accent:#0A72B5;
+  --accent-soft:#10A5F5;
+  --line:#d8e4ec;
+  --muted:#4d6577;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
@@ -90,9 +90,9 @@ h2{font-size:clamp(1.6rem,3.6vw,2.2rem);letter-spacing:-.025em;margin-bottom:12p
 .step h4{font-size:1rem;margin-bottom:4px}
 .step p{font-size:.9rem;color:var(--muted)}
 
-pre{background:var(--ink);color:#f5efe6;padding:18px 20px;border-radius:10px;overflow-x:auto;
+pre{background:var(--ink);color:#e8f1f7;padding:18px 20px;border-radius:10px;overflow-x:auto;
   font-size:.85rem;line-height:1.65;margin-top:16px}
-pre .c{color:#9a9186}
+pre .c{color:#7f9bad}
 
 footer{padding:44px 0 60px;color:var(--muted);font-size:.86rem}
 .foot-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
@@ -107,6 +107,7 @@ footer a{color:var(--muted)}
     <nav>
       <a href="#features" class="hide-sm">Features</a>
       <a href="#how" class="hide-sm">How it works</a>
+      <a href="demo.html">Demo</a>
       <a href="testing.html">Testing</a>
       <a href="https://github.com/Successfulsebunya/light-host">GitHub</a>
     </nav>
@@ -127,6 +128,7 @@ footer a{color:var(--muted)}
       <a class="btn btn-primary" id="download-btn" href="https://github.com/Successfulsebunya/light-host/releases" >
         ⬇ Download for Windows
       </a>
+      <a class="btn btn-ghost" href="demo.html">Try the interface</a>
       <a class="btn btn-ghost" href="https://github.com/Successfulsebunya/light-host">View source</a>
     </div>
     <p class="cta-note">
@@ -240,6 +242,39 @@ lighthost export mysite --url https://myrealsite.com</pre>
         </tbody>
       </table>
     </div>
+  </div>
+</section>
+
+
+<section id="interface">
+  <div class="wrap">
+    <h2>Designed for people who've never written code</h2>
+    <p class="lede">
+      No terminal, no jargon, no configuration files. Just websites you can build,
+      show to someone, and put online when you're ready. Everything technical is
+      still there — tucked into an Advanced panel most people will never open.
+    </p>
+    <div class="grid">
+      <div class="card">
+        <span class="ico">🎯</span>
+        <h3>One thing at a time</h3>
+        <p>Every screen has a single obvious next step. Name your site, pick something to start from, and it builds itself.</p>
+      </div>
+      <div class="card">
+        <span class="ico">👀</span>
+        <h3>Show someone your work</h3>
+        <p>Get a temporary link to send a teacher or a friend. They see your site as it is right now, without you publishing anything.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🧭</span>
+        <h3>Going live, step by step</h3>
+        <p>Two files, two places, three instructions. The moment students find scariest is the one we walk through most carefully.</p>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="demo.html">Open the interactive demo</a>
+    </div>
+    <p class="cta-note">A clickable prototype — nothing is installed and no site is really created.</p>
   </div>
 </section>
 
