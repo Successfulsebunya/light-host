@@ -62,7 +62,7 @@ http {
     include "${PATHS.nginxConf.replace(/\\/g, "/")}/*.conf";
 }
 `;
-  const mainConfPath = path.join(PATHS.nginx, "conf", "wplight.conf");
+  const mainConfPath = path.join(PATHS.nginx, "conf", "lighthost.conf");
   fs.mkdirSync(path.dirname(mainConfPath), { recursive: true });
   fs.writeFileSync(mainConfPath, mainConf, "utf8");
   return mainConfPath;
