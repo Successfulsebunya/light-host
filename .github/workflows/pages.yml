@@ -1,0 +1,55 @@
+# Publishes ONLY the website/ folder to GitHub Pages.
+#
+# The rest of the repository (core/, bin/, templates/, ...) is never deployed,
+# so the Pages site is a clean marketing/docs site rather than a directory
+# listing of source code.
+#
+# One-time setup after this file is merged:
+#   Repo Settings -> Pages -> "Build and deployment" -> Source: "GitHub Actions"
+#
+# Custom domain later:
+#   Add the domain in Settings -> Pages. GitHub writes a CNAME file into the
+#   deployed site automatically, so nothing here needs to change.
+
+name: Deploy website to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'website/**'
+      - '.github/workflows/pages.yml'
+  # Allows manual runs from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it midway
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload website folder only
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./website
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
