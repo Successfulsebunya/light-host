@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testing Guide — Light Host</title>
+<meta name="description" content="How to build, run and test Light Host on your own Windows desktop, including compiling it to a standalone .exe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#12100e;--paper:#faf7f2;--paper-2:#f2ede4;--accent:#c2410c;--accent-soft:#fed7aa;--line:#e0d8cb;--muted:#6b6257;--warn:#92400e;--warn-bg:#fef3c7}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Space Grotesk',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+code,pre,.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+code{background:var(--paper-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:.86em}
+pre code{background:none;border:none;padding:0;font-size:inherit}
+
+header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1080px;margin:0 auto;padding:0 24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
+.logo-mark{width:26px;height:26px;border:2px solid var(--ink);border-radius:6px;display:grid;place-items:center;font-size:13px;background:var(--accent-soft)}
+.nav a.link{color:var(--muted);text-decoration:none;font-size:.9rem;margin-left:22px}
+.nav a.link:hover{color:var(--accent)}
+
+.hero{padding:56px 0 32px;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(1.9rem,5vw,2.7rem);letter-spacing:-.03em;line-height:1.12}
+.sub{color:var(--muted);margin-top:14px;font-size:1.03rem}
+
+main{padding:44px 0 20px}
+h2{font-size:1.45rem;letter-spacing:-.02em;margin:44px 0 12px;padding-top:12px}
+h2:first-of-type{margin-top:0}
+h3{font-size:1.05rem;margin:26px 0 8px}
+p{margin-bottom:14px;color:#302b25}
+ul,ol{margin:0 0 16px 22px}
+li{margin-bottom:7px;color:#302b25}
+
+pre{background:var(--ink);color:#f5efe6;padding:18px 20px;border-radius:10px;overflow-x:auto;font-size:.85rem;line-height:1.7;margin:14px 0 18px}
+pre .c{color:#9a9186}
+
+.note{border-left:3px solid var(--accent);background:var(--paper-2);padding:14px 18px;border-radius:0 8px 8px 0;margin:18px 0;font-size:.93rem}
+.note b{display:block;margin-bottom:4px}
+.warn{border-left:3px solid var(--warn);background:var(--warn-bg);padding:14px 18px;border-radius:0 8px 8px 0;margin:18px 0;font-size:.93rem;color:#5c3d0c}
+.warn b{display:block;margin-bottom:4px}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper-2);margin:18px 0}
+table{width:100%;border-collapse:collapse;font-size:.89rem}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:none}
+td:first-child{font-weight:500;white-space:nowrap}
+
+.status{display:inline-block;font-size:.72rem;padding:3px 9px;border-radius:100px;font-weight:500}
+.s-done{background:#dcfce7;color:#166534}
+.s-partial{background:var(--warn-bg);color:var(--warn)}
+.s-todo{background:var(--paper-2);color:var(--muted);border:1px solid var(--line)}
+
+.toc{border:1px solid var(--line);border-radius:10px;padding:20px 24px;background:var(--paper-2);margin-bottom:36px}
+.toc b{font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:block;margin-bottom:10px}
+.toc ol{margin:0 0 0 18px}
+.toc li{margin-bottom:5px;font-size:.93rem}
+.toc a{color:var(--ink)}
+
+footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:.86rem;margin-top:50px}
+footer a{color:var(--muted)}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="index.html"><span class="logo-mark">⬡</span> Light Host</a>
+    <nav>
+      <a class="link" href="index.html">Home</a>
+      <a class="link" href="https://github.com/Successfulsebunya/light-host">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Testing guide</h1>
+    <p class="sub">How to build Light Host, run it on your own Windows desktop, and tell us what broke.</p>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <div class="toc">
+    <b>On this page</b>
+    <ol>
+      <li><a href="#state">What actually works right now</a></li>
+      <li><a href="#prereq">Prerequisites</a></li>
+      <li><a href="#binaries">Getting the runtime binaries</a></li>
+      <li><a href="#run">Running from source</a></li>
+      <li><a href="#exe">Compiling to a standalone .exe</a></li>
+      <li><a href="#scenarios">Test scenarios to try</a></li>
+      <li><a href="#report">Reporting what you find</a></li>
+    </ol>
+  </div>
+
+  <h2 id="state">1. What actually works right now</h2>
+  <p>
+    Light Host is early. Being honest about what's finished saves you from testing
+    something that was never wired up in the first place.
+  </p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Area</th><th>Status</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Site registry</td><td><span class="status s-done">Working</span></td><td>Tested. Create, read, update, delete.</td></tr>
+        <tr><td>Hosts file editing</td><td><span class="status s-done">Working</span></td><td>Tested against a mock file. Only touches its own marked block.</td></tr>
+        <tr><td>Config generation</td><td><span class="status s-done">Working</span></td><td>nginx blocks and <code>wp-config.php</code> render correctly.</td></tr>
+        <tr><td>CLI commands</td><td><span class="status s-done">Working</span></td><td>All commands parse and dispatch.</td></tr>
+        <tr><td>Starting nginx / PHP / MariaDB</td><td><span class="status s-partial">Untested</span></td><td>Code is written but has never run against real binaries. This is the main thing testers can help with.</td></tr>
+        <tr><td>Creating a WordPress site</td><td><span class="status s-partial">Untested</span></td><td>Depends on the above plus WP-CLI.</td></tr>
+        <tr><td>Export to live server</td><td><span class="status s-partial">Untested</span></td><td>Logic complete; needs a real database to run against.</td></tr>
+        <tr><td>HTTPS / local SSL</td><td><span class="status s-todo">Not built</span></td><td>Planned via mkcert.</td></tr>
+        <tr><td>Graphical interface</td><td><span class="status s-todo">Not built</span></td><td>CLI only for now.</td></tr>
+        <tr><td>macOS support</td><td><span class="status s-todo">Not built</span></td><td>After Windows is solid.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <b>The short version</b>
+    Everything that can be tested without Windows binaries has been tested and passes.
+    Everything that shells out to nginx, PHP or MariaDB is written but unproven — which
+    is exactly where fresh eyes on real machines are most useful.
+  </div>
+
+  <h2 id="prereq">2. Prerequisites</h2>
+  <ul>
+    <li>Windows 10 or 11, 64-bit</li>
+    <li><a href="https://nodejs.org">Node.js 18 or newer</a> — only needed to run from source or compile the executable</li>
+    <li>Administrator access — editing the hosts file requires it</li>
+    <li>Ports 80 and 3306 free. If XAMPP, WAMP, Laragon, IIS or MySQL are already running, stop them first.</li>
+  </ul>
+
+  <div class="warn">
+    <b>Test on a machine you can afford to break</b>
+    This is pre-release software that edits your hosts file and starts database and web
+    server processes. A spare machine or a virtual machine is a much better idea than the
+    laptop your client work lives on.
+  </div>
+
+  <h2 id="binaries">3. Getting the runtime binaries</h2>
+  <p>
+    Light Host doesn't ship the runtimes inside the repository — that would make it huge.
+    They're downloaded separately into a <code>binaries/</code> folder.
+  </p>
+  <pre><span class="c"># clone and install</span>
+git clone https://github.com/Successfulsebunya/light-host.git
+cd light-host
+npm install</pre>
+  <p>
+    The install step fetches WP-CLI automatically and prints instructions for the rest.
+    PHP, nginx and MariaDB are manual for now, because their Windows builds don't have
+    stable download URLs and silently grabbing an unverified binary for a tool that runs
+    with administrator rights is a bad trade.
+  </p>
+  <p>Place them like this:</p>
+  <pre>binaries/
+  php/8.3/        <span class="c"># PHP 8.3 NTS x64, from windows.php.net</span>
+  nginx/          <span class="c"># nginx Windows zip, from nginx.org</span>
+  mariadb/        <span class="c"># MariaDB Windows ZIP (not the MSI installer)</span>
+  wp-cli/         <span class="c"># downloaded for you already</span></pre>
+
+  <h2 id="run">4. Running from source</h2>
+  <p>Open a terminal <b>as Administrator</b>, then:</p>
+  <pre><span class="c"># start the shared database and web server</span>
+npm run cli -- start-engine
+
+<span class="c"># create your first site</span>
+npm run cli -- create testsite
+
+<span class="c"># see what exists</span>
+npm run cli -- list</pre>
+  <p>
+    If it worked, <code>http://testsite.test</code> loads WordPress in your browser, and
+    <code>http://testsite.test/wp-admin</code> logs in with <code>admin</code> / <code>admin</code>.
+  </p>
+
+  <h2 id="exe">5. Compiling to a standalone .exe</h2>
+  <p>
+    To hand Light Host to someone who doesn't have Node.js installed, compile it into a
+    single executable.
+  </p>
+  <pre><span class="c"># from the project folder, with dependencies installed</span>
+npm install
+npm run build:exe</pre>
+  <p>
+    That produces <code>dist/light-host.exe</code>. Run it the same way as the CLI, minus
+    the npm wrapper:
+  </p>
+  <pre>light-host.exe start-engine
+light-host.exe create testsite
+light-host.exe list</pre>
+
+  <div class="note">
+    <b>The .exe is not the whole program</b>
+    It bundles the Light Host code and Node.js runtime, but <i>not</i> PHP, nginx or
+    MariaDB. Those still need to sit in a <code>binaries/</code> folder next to the
+    executable. A true single-file installer that carries everything is a later goal.
+  </div>
+
+  <h3>Building for other platforms</h3>
+  <p>
+    macOS builds can be cross-compiled from the same machine, though the macOS side of the
+    project isn't finished, so they aren't useful yet:
+  </p>
+  <pre>npm run build:exe:all</pre>
+
+  <h3>If the build fails</h3>
+  <ul>
+    <li><b>Antivirus quarantines the output</b> — unsigned executables built this way are often flagged. Add an exclusion for the <code>dist</code> folder.</li>
+    <li><b>Templates not found at runtime</b> — the <code>pkg.assets</code> field in <code>package.json</code> controls what gets bundled. If you add new template files, add them there too.</li>
+    <li><b>Node version mismatch</b> — the build targets Node 18. If your local Node is much newer and something behaves oddly, that's worth reporting.</li>
+  </ul>
+
+  <h2 id="scenarios">6. Test scenarios to try</h2>
+  <p>In rough order of usefulness:</p>
+  <ol>
+    <li><b>Does the engine even start?</b> Run <code>start-engine</code> and check whether MariaDB and nginx processes appear in Task Manager.</li>
+    <li><b>Does site creation complete?</b> Run <code>create testsite</code> and watch for where it fails, if it does.</li>
+    <li><b>Does the site load?</b> Open <code>http://testsite.test</code>. If the domain doesn't resolve, check your hosts file for the Light Host block.</li>
+    <li><b>Is it actually light?</b> Check memory use in Task Manager with one site running, then with three. Report the numbers — this is the whole premise of the project.</li>
+    <li><b>Does stopping a site free resources?</b> Run <code>stop testsite</code> and confirm its PHP process disappears.</li>
+    <li><b>Does export produce something usable?</b> Run <code>export testsite --url https://example.com</code> and inspect the SQL and zip. Bonus points for importing them onto a real host.</li>
+    <li><b>Does deleting clean up properly?</b> Run <code>delete testsite</code>, then check that the hosts file entry, database and site folder are all gone.</li>
+    <li><b>Conflict behaviour.</b> Install alongside XAMPP or Laragon and see how gracefully it fails when ports are taken.</li>
+  </ol>
+
+  <h2 id="report">7. Reporting what you find</h2>
+  <p>
+    Open an issue on
+    <a href="https://github.com/Successfulsebunya/light-host/issues">GitHub</a>.
+    Useful reports include:
+  </p>
+  <ul>
+    <li>Windows version and whether the machine is 64-bit</li>
+    <li>Node.js version (<code>node -v</code>), or that you used the compiled .exe</li>
+    <li>The exact command you ran and the full error text</li>
+    <li>Anything in <code>data/logs/</code> that looks relevant</li>
+    <li>Whether other local server software is installed</li>
+  </ul>
+  <p>
+    Reports that it worked fine are just as valuable as bug reports — knowing which
+    Windows versions and hardware are already fine narrows down where the real problems are.
+  </p>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Light Host · Released under the <a href="https://github.com/Successfulsebunya/light-host/blob/main/LICENSE">GNU GPL v3</a> ·
+    <a href="index.html">Back to home</a>
+  </div>
+</footer>
+
+</body>
+</html>
