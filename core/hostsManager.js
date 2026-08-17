@@ -2,7 +2,7 @@
 
 /**
  * Manages entries in the Windows hosts file so that `sitename.test` resolves
- * to 127.0.0.1. All wp-light entries live inside a clearly marked block so
+ * to 127.0.0.1. All Light Host entries live inside a clearly marked block so
  * we NEVER touch lines we didn't add ourselves.
  *
  * IMPORTANT: writing to the hosts file requires Administrator privileges on
