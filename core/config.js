@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Central configuration for wp-light.
+ * Central configuration for Light Host.
  *
  * Design goal: everything the app needs lives under one root folder so
  * uninstalling is "delete the folder" and nothing pollutes the OS beyond
@@ -27,7 +27,7 @@ const IS_WINDOWS = process.platform === "win32";
 
 // Root install directory. On Windows this defaults to a folder next to the
 // executable / repo checkout so nothing is scattered across the system.
-const APP_ROOT = process.env.WPLIGHT_ROOT || path.resolve(__dirname, "..");
+const APP_ROOT = process.env.LIGHTHOST_ROOT || path.resolve(__dirname, "..");
 
 const PATHS = {
   root: APP_ROOT,
@@ -66,9 +66,9 @@ const DEFAULTS = {
 };
 
 const MARKERS = {
-  // Used to safely find/remove wp-light's own block in the hosts file
-  hostsStart: "# >>> wp-light managed entries >>>",
-  hostsEnd: "# <<< wp-light managed entries <<<",
+  // Used to safely find/remove Light Host's own block in the hosts file
+  hostsStart: "# >>> Light Host managed entries >>>",
+  hostsEnd: "# <<< Light Host managed entries <<<",
 };
 
 module.exports = { IS_WINDOWS, PATHS, DEFAULTS, MARKERS, os };
