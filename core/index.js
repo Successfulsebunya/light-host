@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Public API surface of the wp-light core engine. A future Tauri UI (or
+ * Public API surface of the Light Host core engine. A future Tauri UI (or
  * anything else) should only ever import from here, not reach into
  * individual manager modules directly — keeps the UI decoupled from
  * internal refactors.
