@@ -46,3 +46,30 @@ functions where you can.
   `hostsManager.js` and `dbManager.js` — these touch system state and a
   live user database, so surprising behavior there is worse than a loud
   error.
+
+## Licensing of contributions
+
+Light Host is released under the GNU GPL v3.0 or later. By submitting a pull
+request you agree that your contribution is licensed under the same terms.
+
+If you add a new source file, include the standard header notice at the top:
+
+```js
+/*
+ * Light Host - lightweight local WordPress development for Windows
+ * Copyright (C) 2026 Moses Ssebunya
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+```
