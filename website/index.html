@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Light Host — A featherweight local WordPress environment for Windows</title>
+<meta name="description" content="Light Host is a lightweight, WordPress-only local development environment for Windows. No Docker, no VM. Built for low-resource machines and painless migration to a live server.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12100e;
+  --paper:#faf7f2;
+  --paper-2:#f2ede4;
+  --accent:#c2410c;
+  --accent-soft:#fed7aa;
+  --line:#e0d8cb;
+  --muted:#6b6257;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+code,pre,.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+
+/* ---- header ---- */
+header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em;font-size:1.05rem}
+.logo-mark{width:26px;height:26px;border:2px solid var(--ink);border-radius:6px;display:grid;place-items:center;font-size:13px;background:var(--accent-soft)}
+.nav a{color:var(--muted);text-decoration:none;font-size:.9rem;margin-left:22px}
+.nav a:hover{color:var(--accent)}
+@media(max-width:640px){.nav a.hide-sm{display:none}}
+
+/* ---- hero ---- */
+.hero{padding:80px 0 64px;border-bottom:1px solid var(--line)}
+.badge{display:inline-block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--line);background:var(--paper-2);padding:5px 11px;border-radius:100px;color:var(--muted);margin-bottom:22px}
+h1{font-size:clamp(2.3rem,6vw,3.9rem);line-height:1.05;letter-spacing:-.035em;font-weight:700;max-width:16ch}
+h1 em{font-style:normal;color:var(--accent)}
+.sub{margin-top:20px;font-size:clamp(1rem,2.2vw,1.18rem);color:var(--muted);max-width:56ch}
+.cta-row{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:9px;
+  text-decoration:none;font-weight:500;font-size:.95rem;border:1px solid transparent;transition:.15s}
+.btn-primary{background:var(--ink);color:var(--paper)}
+.btn-primary:hover{background:var(--accent)}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--ink);background:var(--paper-2)}
+.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+.cta-note{font-size:.82rem;color:var(--muted);margin-top:14px}
+
+/* ---- stats ---- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:52px}
+.stat{background:var(--paper);padding:22px 20px}
+.stat b{display:block;font-size:1.5rem;letter-spacing:-.02em}
+.stat span{font-size:.8rem;color:var(--muted)}
+
+/* ---- sections ---- */
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+h2{font-size:clamp(1.6rem,3.6vw,2.2rem);letter-spacing:-.025em;margin-bottom:12px}
+.lede{color:var(--muted);max-width:60ch;margin-bottom:40px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:22px}
+.card{border:1px solid var(--line);border-radius:12px;padding:24px;background:var(--paper-2)}
+.card h3{font-size:1.02rem;margin-bottom:8px;letter-spacing:-.01em}
+.card p{font-size:.9rem;color:var(--muted)}
+.card .ico{font-size:1.3rem;margin-bottom:12px;display:block}
+
+/* ---- compare table ---- */
+.tbl{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}
+.tbl th,.tbl td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line)}
+.tbl th{font-weight:500;font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td:first-child{font-weight:500}
+.yes{color:var(--accent);font-weight:500}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper-2)}
+
+/* ---- steps ---- */
+.steps{counter-reset:s;display:grid;gap:16px;max-width:70ch}
+.step{counter-increment:s;position:relative;padding-left:52px}
+.step::before{content:counter(s);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:8px;
+  background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:.85rem;font-weight:500}
+.step h4{font-size:1rem;margin-bottom:4px}
+.step p{font-size:.9rem;color:var(--muted)}
+
+pre{background:var(--ink);color:#f5efe6;padding:18px 20px;border-radius:10px;overflow-x:auto;
+  font-size:.85rem;line-height:1.65;margin-top:16px}
+pre .c{color:#9a9186}
+
+footer{padding:44px 0 60px;color:var(--muted);font-size:.86rem}
+.foot-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo"><span class="logo-mark">⬡</span> Light Host</div>
+    <nav>
+      <a href="#features" class="hide-sm">Features</a>
+      <a href="#how" class="hide-sm">How it works</a>
+      <a href="testing.html">Testing</a>
+      <a href="https://github.com/Successfulsebunya/light-host">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="badge">Early development · Windows first</span>
+    <h1>Local WordPress that <em>doesn't eat your laptop.</em></h1>
+    <p class="sub">
+      Light Host is a WordPress-only local development environment for Windows.
+      No Docker. No virtual machine. Just nginx, PHP and MariaDB running as
+      native portable binaries — small enough for the machine you actually own.
+    </p>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" id="download-btn" href="https://github.com/Successfulsebunya/light-host/releases" >
+        ⬇ Download for Windows
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/Successfulsebunya/light-host">View source</a>
+    </div>
+    <p class="cta-note">
+      No compiled build has been published yet — the link above goes to the
+      Releases page, where the first <code>.exe</code> will appear. Until then you can
+      <a href="https://github.com/Successfulsebunya/light-host#building-a-windows-exe">build it yourself</a> in two commands.
+    </p>
+
+    <div class="stats">
+      <div class="stat"><b>~200MB</b><span>Target install size</span></div>
+      <div class="stat"><b>No Docker</b><span>Native binaries only</span></div>
+      <div class="stat"><b>MariaDB</b><span>MySQL-compatible dumps</span></div>
+      <div class="stat"><b>GPL-3.0</b><span>Free & open source</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Built around two stubborn priorities</h2>
+    <p class="lede">
+      Most local environments are built for machines with resources to spare, and treat
+      going live as somebody else's problem. Light Host inverts both.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <span class="ico">🪶</span>
+        <h3>Runs on modest hardware</h3>
+        <p>No Docker Desktop, no WSL2 backend, no VM. nginx, PHP-FPM and MariaDB run directly as portable binaries, so idle memory use stays low enough for older machines.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🚚</span>
+        <h3>Going live is one command</h3>
+        <p>Export produces a plain <code class="mono">.sql</code> dump and a clean file zip — the exact shape any standard host expects. No proprietary format to unpack on the other side.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🔗</span>
+        <h3>URLs rewritten safely</h3>
+        <p>Switching your local domain to a production one runs through WP-CLI's serialization-aware search-replace, so widget options and theme mods don't get corrupted.</p>
+      </div>
+      <div class="card">
+        <span class="ico">💤</span>
+        <h3>Idle sites cost nothing</h3>
+        <p>PHP processes are started per site, on demand. Sites you aren't working on aren't holding memory hostage in the background.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🗄️</span>
+        <h3>One database engine, shared</h3>
+        <p>A single MariaDB instance serves every site, each with its own database and user — mirroring how real shared hosting is actually structured.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🧹</span>
+        <h3>Uninstall is a delete</h3>
+        <p>Everything lives under one folder. The only things touched outside it are your hosts file entries, kept inside a clearly marked block that's cleanly removed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>From empty folder to live site</h2>
+    <p class="lede">The whole loop, start to finish.</p>
+
+    <div class="steps">
+      <div class="step">
+        <h4>Create a site</h4>
+        <p>A database, user, WordPress install and local domain get provisioned in one step.</p>
+      </div>
+      <div class="step">
+        <h4>Build it</h4>
+        <p>Visit <code class="mono">yoursite.test</code> in the browser and work normally — themes, plugins, content.</p>
+      </div>
+      <div class="step">
+        <h4>Export for production</h4>
+        <p>Point it at your real domain. You get a rewritten SQL dump, a file zip, and a README with the exact import steps.</p>
+      </div>
+      <div class="step">
+        <h4>Upload</h4>
+        <p>Import the SQL through phpMyAdmin, drop the files in your web root, update the live database credentials. Done.</p>
+      </div>
+    </div>
+
+<pre><span class="c"># create a local site</span>
+lighthost create mysite
+
+<span class="c"># build it at http://mysite.test ...</span>
+
+<span class="c"># then package it for the real world</span>
+lighthost export mysite --url https://myrealsite.com</pre>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>How it compares</h2>
+    <p class="lede">Different tools optimise for different things. Here's where Light Host sits.</p>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead>
+          <tr><th>&nbsp;</th><th>Light Host</th><th>Local</th><th>Laragon</th><th>Studio</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>WordPress-only focus</td><td class="yes">Yes</td><td class="yes">Yes</td><td>General PHP</td><td class="yes">Yes</td></tr>
+          <tr><td>Runs without Docker</td><td class="yes">Yes</td><td>No</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+          <tr><td>MySQL-compatible database</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td>SQLite default</td></tr>
+          <tr><td>Built-in production export</td><td class="yes">Yes</td><td>Partly paid</td><td>Manual</td><td>Via WP.com</td></tr>
+          <tr><td>Platforms</td><td>Windows</td><td>Win/Mac/Linux</td><td>Windows</td><td>Win/Mac/Linux</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Want to try it early?</h2>
+    <p class="lede">
+      The core engine is written and tested; the packaged executable is still being put
+      together. If you're comfortable with a terminal, you can compile your own copy today
+      and help shape what the first release looks like.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="testing.html">Read the testing guide</a>
+      <a class="btn btn-ghost" href="https://github.com/Successfulsebunya/light-host/issues">Report an issue</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>Light Host · Released under the <a href="https://github.com/Successfulsebunya/light-host/blob/main/LICENSE">GNU GPL v3</a></div>
+    <div><a href="https://github.com/Successfulsebunya/light-host">github.com/Successfulsebunya/light-host</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
