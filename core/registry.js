@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * The registry is a flat JSON file that tracks every site wp-light knows
+ * The registry is a flat JSON file that tracks every site Light Host knows
  * about: its name, domain, DB name/credentials, PHP version, ports, and
  * status. Kept intentionally simple (no embedded DB) so it's easy to
  * inspect, back up, or hand-edit if something goes wrong.
