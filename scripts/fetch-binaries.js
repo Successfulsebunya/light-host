@@ -2,7 +2,7 @@
 "use strict";
 
 /**
- * Downloads the portable binaries wp-light depends on, so the git repo
+ * Downloads the portable binaries Light Host depends on, so the git repo
  * itself stays tiny (no binaries committed). Run automatically via
  * `npm install` (postinstall) or manually: `node scripts/fetch-binaries.js`
  *
@@ -62,7 +62,7 @@ async function main() {
     return;
   }
 
-  console.log("wp-light binary setup\n----------------------");
+  console.log("Light Host binary setup\n----------------------");
   console.log(
     "Automatic download is only wired up for WP-CLI right now (a single\n" +
     "small .phar file with a stable direct-download URL). PHP, nginx, and\n" +
