@@ -76,7 +76,7 @@ async function exportSiteForLiveServer(site, { productionUrl, outDir }) {
   await zipSiteFiles(site, zipPath);
 
   // A short README so the user (or whoever they hand this to) knows what to do
-  const instructions = `wp-light export for "${site.name}"
+  const instructions = `lighthost export for "${site.name}"
 Generated: ${new Date().toISOString()}
 
 Contents:
