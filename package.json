@@ -1,21 +1,36 @@
 {
-  "name": "wp-light",
+  "name": "light-host",
   "version": "0.1.0",
-  "description": "A lightweight, WordPress-only local development environment for Windows (and eventually Mac). No Docker, no VM, minimal footprint.",
+  "description": "Light Host - a lightweight, WordPress-only local development environment for Windows. No Docker, no VM, minimal footprint.",
   "main": "core/index.js",
   "bin": {
-    "wplight": "./bin/wplight.js"
+    "lighthost": "./bin/lighthost.js"
   },
   "scripts": {
     "postinstall": "node scripts/fetch-binaries.js",
-    "cli": "node bin/wplight.js"
+    "cli": "node bin/lighthost.js",
+    "build:exe": "pkg . --targets node18-win-x64 --output dist/light-host.exe",
+    "build:exe:all": "pkg . --targets node18-win-x64,node18-macos-x64,node18-macos-arm64 --out-path dist"
   },
-  "author": "",
-  "license": "MIT",
+  "pkg": {
+    "assets": [
+      "templates/**/*"
+    ],
+    "outputPath": "dist"
+  },
+  "author": "Moses Ssebunya",
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Successfulsebunya/light-host.git"
+  },
   "dependencies": {
     "archiver": "^7.0.1",
     "extract-zip": "^2.0.1",
     "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@yao-pkg/pkg": "^6.1.1"
   },
   "engines": {
     "node": ">=18"
